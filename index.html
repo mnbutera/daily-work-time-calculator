@@ -1,3 +1,13 @@
+<!--
+Daily Work Time Calculator
+Version 1.1
+
+Created by Michael Butera
+Originally developed in July 2026 as a replacement for the
+Miracle Salad online timesheet calculator.
+
+Single-file HTML utility.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,6 +278,7 @@
       <div class="total-box" id="totalBox" tabindex="-1" aria-live="polite">
         <div class="total-main">Total: <span id="totalDecimal">0.00</span> hours</div>
         <div class="total-secondary">Hours needed: <span id="hoursNeeded">8.00</span></div>
+        <div class="total-secondary">Comp earned: <span id="compEarned">0.00</span></div>
 
         <div class="copy-row">
           <button type="button" id="copyTotal">Copy total</button>
@@ -325,6 +336,7 @@
   const rowsContainer = document.getElementById("rows");
   const totalDecimal = document.getElementById("totalDecimal");
   const hoursNeeded = document.getElementById("hoursNeeded");
+  const compEarned = document.getElementById("compEarned");
   const totalBox = document.getElementById("totalBox");
   const errorBox = document.getElementById("error");
   const addRowButton = document.getElementById("addRow");
@@ -545,9 +557,11 @@
 
     const decimalHours = totalMinutes / 60;
     const remainingHours = Math.max(0, 8 - decimalHours);
+    const earnedComp = Math.max(0, decimalHours - 8);
 
     totalDecimal.textContent = decimalHours.toFixed(2);
     hoursNeeded.textContent = remainingHours.toFixed(2);
+    compEarned.textContent = earnedComp.toFixed(2);
 
     const messages = [];
 
