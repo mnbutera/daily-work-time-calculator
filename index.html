@@ -1,6 +1,6 @@
 <!--
 Daily Work Time Calculator
-Version 1.1
+Version 1.2.2
 
 Created by Michael Butera
 Originally developed in July 2026 as a replacement for the
@@ -403,6 +403,12 @@ Single-file HTML utility.
 
       input.addEventListener("input", () => {
         input.value = sanitizeTimeText(input.value);
+
+        // Editing a row starts a new validation cycle. Do not show an
+        // incomplete or invalid warning while the user is actively entering
+        // or correcting that row.
+        delete row.dataset.left;
+
         copyStatus.textContent = "";
         calculate();
       });
@@ -423,6 +429,14 @@ Single-file HTML utility.
       window.setTimeout(() => {
         // A second check covers browser cases where relatedTarget is unavailable.
         if (row.contains(document.activeElement)) {
+          return;
+        }
+
+        // A row becomes eligible for validation only after it contains
+        // something and the user then leaves the row.
+        if (!inInput.value && !outInput.value) {
+          delete row.dataset.left;
+          calculate();
           return;
         }
 
